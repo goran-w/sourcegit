@@ -31,6 +31,21 @@ namespace SourceGit.ViewModels
             }
         }
 
+        public bool NoImageFilteringInDiffView
+        {
+            get => Preferences.Instance.NoImageFilteringInDiffView;
+            set
+            {
+                if (value != Preferences.Instance.NoImageFilteringInDiffView)
+                {
+                    Preferences.Instance.NoImageFilteringInDiffView = value;
+                    OnPropertyChanged();
+                    // TODO: Do I need to do a full diff content loading or can I just force Avalonia to reload the page?
+                    LoadDiffContent();
+                }
+            }
+        }
+
         public string FileModeChange
         {
             get => _fileModeChange;

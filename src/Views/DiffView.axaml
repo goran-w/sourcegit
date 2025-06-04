@@ -122,6 +122,14 @@
 
             <ToggleButton Classes="line_path"
                           Width="28"
+                          IsChecked="{Binding NoImageFilteringInDiffView, Mode=TwoWay}"
+                          IsVisible="{Binding !IsTextDiff}"
+                          ToolTip.Tip="{DynamicResource Text.Diff.NoImageFiltering}">
+              <Path Width="14" Height="14" Stretch="Uniform" Data="{StaticResource Icons.NoImageFiltering}"/>
+            </ToggleButton>
+
+            <ToggleButton Classes="line_path"
+                          Width="28"
                           Click="OnUseFullTextDiffClicked"
                           IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFullTextDiff, Mode=OneWay}"
                           IsVisible="{Binding IsTextDiff}"
