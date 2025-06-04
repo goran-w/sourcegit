@@ -10,19 +10,36 @@
     <TextBlock FontSize="18"
                Classes="bold"
                Text="{DynamicResource Text.Init}"/>
-    <Grid Margin="0,16,8,0" ColumnDefinitions="100,*">
+    <Grid Margin="0,16,8,0" ColumnDefinitions="130,*">
       <Grid.RowDefinitions>
+        <RowDefinition Height="32" />
         <RowDefinition Height="32"/>
         <RowDefinition Height="Auto" MinHeight="32"/>
       </Grid.RowDefinitions>
 
       <TextBlock Grid.Row="0" Grid.Column="0"
-                 Text="{DynamicResource Text.Init.Path}"
+                 Text="{DynamicResource Text.Init.RepositoryName}"
                  HorizontalAlignment="Right" VerticalAlignment="Center"
                  Margin="0,0,8,0"/>
-      <TextBlock Grid.Row="0" Grid.Column="1"
-                 Text="{Binding TargetPath}"/>
-      <TextBlock Grid.Row="1" Grid.Column="1"
+      <TextBox Grid.Row="0" Grid.Column="1" Height="28" CornerRadius="3"
+               Text="{Binding TargetPath, Mode=TwoWay}"
+               Margin="0,0,8,0"/>
+
+      <TextBlock Grid.Row="1" Grid.Column="0"
+                 Text="{DynamicResource Text.Init.ParentPath}"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"/>
+      <TextBox Grid.Row="1" Grid.Column="1" Height="28" CornerRadius="3"
+               Text="{Binding TargetPath, Mode=TwoWay}"
+               Margin="0,0,8,0">
+        <TextBox.InnerRightContent>
+          <Button Classes="icon_button" Width="30" Height="30" Click="SelectParentDir">
+            <Path Data="{StaticResource Icons.Folder.Open}" Fill="{DynamicResource Brush.FG1}"/>
+          </Button>
+        </TextBox.InnerRightContent>
+      </TextBox>
+
+      <TextBlock Grid.Row="2" Grid.Column="1"
                  Foreground="{DynamicResource Brush.FG2}"
                  Text="{Binding Reason}"
                  TextWrapping="Wrap"/>

@@ -421,7 +421,9 @@
   <x:String x:Key="Text.Hunk.Stage" xml:space="preserve">Stage</x:String>
   <x:String x:Key="Text.Hunk.Unstage" xml:space="preserve">Unstage</x:String>
   <x:String x:Key="Text.Init" xml:space="preserve">Initialize Repository</x:String>
+  <x:String x:Key="Text.Init.ParentPath" xml:space="preserve">Parent Path:</x:String>
   <x:String x:Key="Text.Init.Path" xml:space="preserve">Path:</x:String>
+  <x:String x:Key="Text.Init.RepositoryName" xml:space="preserve">Repository Name:</x:String>
   <x:String x:Key="Text.InProgress.CherryPick" xml:space="preserve">Cherry-Pick in progress.</x:String>
   <x:String x:Key="Text.InProgress.CherryPick.Head" xml:space="preserve">Processing commit</x:String>
   <x:String x:Key="Text.InProgress.Merge" xml:space="preserve">Merge in progress.</x:String>
@@ -751,6 +753,7 @@
   <x:String x:Key="Text.Welcome.Delete" xml:space="preserve">Delete</x:String>
   <x:String x:Key="Text.Welcome.DragDropTip" xml:space="preserve">DRAG &amp; DROP FOLDER SUPPORTED. CUSTOM GROUPING SUPPORTED.</x:String>
   <x:String x:Key="Text.Welcome.Edit" xml:space="preserve">Edit</x:String>
+  <x:String x:Key="Text.Welcome.Init" xml:space="preserve">Init Repository</x:String>
   <x:String x:Key="Text.Welcome.Move" xml:space="preserve">Move to Another Group</x:String>
   <x:String x:Key="Text.Welcome.OpenAllInNode" xml:space="preserve">Open All Repositories</x:String>
   <x:String x:Key="Text.Welcome.OpenOrInit" xml:space="preserve">Open Repository</x:String>

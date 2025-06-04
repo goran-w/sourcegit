@@ -4,6 +4,7 @@ using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using SourceGit.ViewModels;
 
 namespace SourceGit.Views
 {
@@ -12,6 +13,28 @@ namespace SourceGit.Views
         public WelcomeToolbar()
         {
             InitializeComponent();
+        }
+
+        private async void InitLocalRepository(object _1, RoutedEventArgs e)
+        {
+            var activePage = App.GetLauncher().ActivePage;
+            if (activePage == null || !activePage.CanCreatePopup())
+                return;
+
+            var topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel == null)
+                return;
+
+            try
+            {
+                ViewModels.Welcome.Instance.InitRepository("", null, "Init new repo...");
+            }
+            catch (Exception exception)
+            {
+                App.RaiseException(string.Empty, $"Failed to open repository: {exception.Message}");
+            }
+
+            e.Handled = true;
         }
 
         private async void OpenLocalRepository(object _1, RoutedEventArgs e)
