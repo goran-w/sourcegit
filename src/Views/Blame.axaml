@@ -43,7 +43,19 @@
 
     <!-- File -->
     <Border Grid.Row="1" Padding="8,0">
-      <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
+      <Grid>
+        <!--<TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>-->
+        <TextBlock>
+          <Run Text="{Binding File}" />
+          <Run Text=" @ " />
+          <Run Text="{Binding Revision}" Foreground="DarkGoldenrod"/>
+        </TextBlock>
+
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+          <Button Content="b" Click="BackButton_Clicked"/>
+          <Button Content="f" Click="ForwardButton_Clicked"/>
+        </StackPanel>
+      </Grid>
     </Border>
 
     <!-- Body -->

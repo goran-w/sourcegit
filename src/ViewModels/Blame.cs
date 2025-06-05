@@ -5,15 +5,22 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using SourceGit.Commands;
 
 namespace SourceGit.ViewModels
 {
     public class Blame : ObservableObject
     {
-        public string Title
+        public string Revision
         {
-            get;
-            private set;
+            get => _revision;
+            private set => SetProperty(ref _revision, value);
+        }
+
+        public string File
+        {
+            get => _file;
+            private set => SetProperty(ref _file, value);
         }
 
         public bool IsBinary
@@ -27,23 +34,71 @@ namespace SourceGit.ViewModels
             private set => SetProperty(ref _data, value);
         }
 
+        private List<string> _Shas = new List<string>();
+        private int index = 0;
+
         public Blame(string repo, string file, string revision)
         {
             _repo = repo;
+            _file = file;
 
-            Title = $"{file} @ {revision.AsSpan(0, 10)}";
+            SetBlameData($"{revision.AsSpan(0, 10)}", false);
+        }
+
+        private void SetBlameData(string commitSHA, bool fromButtons)
+        {
+            //Title = $"{_file} @ {commitSHA}";
+            Revision = commitSHA;
+
             Task.Run(() =>
             {
-                var result = new Commands.Blame(repo, file, revision).Result();
+                var result = new Commands.Blame(_repo, _file, commitSHA).Result();
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     Data = result;
                     OnPropertyChanged(nameof(IsBinary));
                 });
             });
+
+            if (!fromButtons)
+            {
+                try
+                {
+                    if(index != _Shas.Count-1)
+                        _Shas.RemoveRange(index + 1, _Shas.Count - index - 1);
+                }
+                catch (Exception e)
+                {
+                    
+                }
+
+                if (_Shas.Count == 0 || _Shas[index] != commitSHA)
+                {
+                    _Shas.Add(commitSHA);
+                    index = _Shas.Count - 1;
+                }
+            }
         }
 
-        public void NavigateToCommit(string commitSHA)
+        public void Back()
+        {
+            --index;
+            if (index < 0)
+                index = 0;
+
+            NavigateToCommit(_Shas[index], true);
+        }
+
+        public void Forward()
+        {
+            ++index;
+            if (index >= _Shas.Count)
+                index = _Shas.Count - 1;
+
+            NavigateToCommit(_Shas[index], true);
+        }
+
+        public void NavigateToCommit(string commitSHA, bool fromButtons)
         {
             var launcher = App.GetLauncer();
             if (launcher == null)
@@ -54,6 +109,7 @@ namespace SourceGit.ViewModels
                 if (page.Data is Repository repo && repo.FullPath.Equals(_repo))
                 {
                     repo.NavigateToCommit(commitSHA);
+                    SetBlameData(commitSHA, fromButtons);
                     break;
                 }
             }
@@ -69,7 +125,10 @@ namespace SourceGit.ViewModels
             return msg;
         }
 
-        private readonly string _repo;
+        //private string _title;
+        private string _revision;
+        private string _repo;
+        private string _file;
         private Models.BlameData _data = null;
         private Dictionary<string, string> _commitMessages = new Dictionary<string, string>();
     }

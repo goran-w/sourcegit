@@ -37,6 +37,7 @@ namespace SourceGit.Views
                 {
                     var typeface = view.CreateTypeface();
                     var underlinePen = new Pen(Brushes.DarkOrange);
+                    var underlinePenCurrent = new Pen(Brushes.DarkGoldenrod);
                     var width = Bounds.Width;
 
                     foreach (var line in view.VisualLines)
@@ -54,15 +55,18 @@ namespace SourceGit.Views
                         if (!info.IsFirstInGroup && y > view.DefaultLineHeight * 0.6)
                             continue;
 
+                        bool isCurrent = _editor.BlameData.Revision == info.CommitSHA;
+
                         var shaLink = new FormattedText(
                             info.CommitSHA,
                             CultureInfo.CurrentCulture,
                             FlowDirection.LeftToRight,
                             typeface,
                             _editor.FontSize,
-                            Brushes.DarkOrange);
+                            isCurrent ? Brushes.DarkGoldenrod : Brushes.DarkOrange);
+
                         context.DrawText(shaLink, new Point(x, y));
-                        context.DrawLine(underlinePen, new Point(x, y + shaLink.Baseline + 2), new Point(x + shaLink.Width, y + shaLink.Baseline + 2));
+                        context.DrawLine(isCurrent ? underlinePenCurrent : underlinePen, new Point(x, y + shaLink.Baseline + 2), new Point(x + shaLink.Width, y + shaLink.Baseline + 2));
                         x += shaLink.Width + 8;
 
                         var author = new FormattedText(
@@ -225,7 +229,7 @@ namespace SourceGit.Views
                         {
                             if (DataContext is ViewModels.Blame blame)
                             {
-                                blame.NavigateToCommit(info.CommitSHA);
+                                blame.NavigateToCommit(info.CommitSHA, false);
                             }
 
                             e.Handled = true;
@@ -439,6 +443,21 @@ namespace SourceGit.Views
         {
             base.OnClosed(e);
             GC.Collect();
+        }
+
+        private void BackButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.Blame blame)
+            {
+                blame.Back();
+            }
+        }
+        private void ForwardButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.Blame blame)
+            {
+                blame.Forward();
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace SourceGit.Models
     public class BlameData
     {
         public string File { get; set; } = string.Empty;
+        public string Revision { get; set; } = string.Empty;
         public List<BlameLineInfo> LineInfos { get; set; } = new List<BlameLineInfo>();
         public string Content { get; set; } = string.Empty;
         public bool IsBinary { get; set; } = false;
