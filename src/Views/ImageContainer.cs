@@ -54,6 +54,16 @@ namespace SourceGit.Views
 
     public class ImageView : ImageContainer
     {
+        public static readonly StyledProperty<BitmapInterpolationMode> BitmapInterpolationModeProperty =
+            AvaloniaProperty.Register<ImageView, BitmapInterpolationMode>(
+                nameof(BitmapInterpolationMode), BitmapInterpolationMode.HighQuality);
+
+        public BitmapInterpolationMode BitmapInterpolationMode
+        {
+            get => GetValue(BitmapInterpolationModeProperty);
+            set => SetValue(BitmapInterpolationModeProperty, value);
+        }
+
         public static readonly StyledProperty<Bitmap> ImageProperty =
             AvaloniaProperty.Register<ImageView, Bitmap>(nameof(Image));
 
@@ -66,7 +76,8 @@ namespace SourceGit.Views
         public override void Render(DrawingContext context)
         {
             base.Render(context);
-
+            var interpolationMode = SourceGit.ViewModels.Preferences.Instance.NoImageFilteringInDiffView ? BitmapInterpolationMode.None : BitmapInterpolationMode.HighQuality;
+            using(context.PushRenderOptions(new RenderOptions { BitmapInterpolationMode = interpolationMode }))
             if (Image is { } image)
                 context.DrawImage(image, new Rect(0, 0, Bounds.Width, Bounds.Height));
         }
@@ -110,6 +121,16 @@ namespace SourceGit.Views
 
     public class ImageSwipeControl : ImageContainer
     {
+        public static readonly StyledProperty<BitmapInterpolationMode> BitmapInterpolationModeProperty =
+            AvaloniaProperty.Register<ImageSwipeControl, BitmapInterpolationMode>(
+                nameof(BitmapInterpolationMode), BitmapInterpolationMode.HighQuality);
+
+        public BitmapInterpolationMode BitmapInterpolationMode
+        {
+            get => GetValue(BitmapInterpolationModeProperty);
+            set => SetValue(BitmapInterpolationModeProperty, value);
+        }
+
         public static readonly StyledProperty<double> AlphaProperty =
             AvaloniaProperty.Register<ImageSwipeControl, double>(nameof(Alpha), 0.5);
 
@@ -141,6 +162,7 @@ namespace SourceGit.Views
         {
             AffectsMeasure<ImageSwipeControl>(OldImageProperty, NewImageProperty);
             AffectsRender<ImageSwipeControl>(AlphaProperty);
+            AffectsRender<ImageSwipeControl>(BitmapInterpolationModeProperty);
         }
 
         public override void Render(DrawingContext context)
@@ -152,10 +174,12 @@ namespace SourceGit.Views
             var h = Bounds.Height;
             var x = w * alpha;
             var left = OldImage;
-            if (left != null && alpha > 0)
+            var interpolationMode = SourceGit.ViewModels.Preferences.Instance.NoImageFilteringInDiffView ? BitmapInterpolationMode.None : BitmapInterpolationMode.HighQuality;
+                if (left != null && alpha > 0)
             {
                 var src = new Rect(0, 0, left.Size.Width * alpha, left.Size.Height);
                 var dst = new Rect(0, 0, x, h);
+                using(context.PushRenderOptions(new RenderOptions { BitmapInterpolationMode = interpolationMode }))
                 context.DrawImage(left, src, dst);
             }
 
@@ -164,6 +188,7 @@ namespace SourceGit.Views
             {
                 var src = new Rect(right.Size.Width * alpha, 0, right.Size.Width * (1 - alpha), right.Size.Height);
                 var dst = new Rect(x, 0, w - x, h);
+                using (context.PushRenderOptions(new RenderOptions { BitmapInterpolationMode = interpolationMode }))
                 context.DrawImage(right, src, dst);
             }
 
@@ -253,6 +278,17 @@ namespace SourceGit.Views
 
     public class ImageBlendControl : ImageContainer
     {
+        public static readonly StyledProperty<BitmapInterpolationMode> BitmapInterpolationModeProperty =
+            AvaloniaProperty.Register<ImageBlendControl, BitmapInterpolationMode>(
+                nameof(BitmapInterpolationMode), BitmapInterpolationMode.HighQuality);
+
+        public BitmapInterpolationMode BitmapInterpolationMode
+        {
+            get => GetValue(BitmapInterpolationModeProperty);
+            set => SetValue(BitmapInterpolationModeProperty, value);
+        }
+
+
         public static readonly StyledProperty<double> AlphaProperty =
             AvaloniaProperty.Register<ImageBlendControl, double>(nameof(Alpha), 1.0);
 
@@ -284,6 +320,7 @@ namespace SourceGit.Views
         {
             AffectsMeasure<ImageBlendControl>(OldImageProperty, NewImageProperty);
             AffectsRender<ImageBlendControl>(AlphaProperty);
+            AffectsRender<ImageBlendControl>(BitmapInterpolationModeProperty);
         }
 
         public override void Render(DrawingContext context)
@@ -296,6 +333,8 @@ namespace SourceGit.Views
             var right = NewImage;
             var drawLeft = left != null && alpha < 1.0;
             var drawRight = right != null && alpha > 0;
+            var interpolationMode = SourceGit.ViewModels.Preferences.Instance.NoImageFilteringInDiffView ? BitmapInterpolationMode.None : BitmapInterpolationMode.HighQuality;
+            using (context.PushRenderOptions(new RenderOptions { BitmapInterpolationMode = interpolationMode }))
 
             if (drawLeft && drawRight)
             {
@@ -312,7 +351,6 @@ namespace SourceGit.Views
                         using (dc.PushOpacity(alpha))
                             dc.DrawImage(right, rtRect);
                     }
-
                     context.DrawImage(rt, rtRect, rect);
                 }
             }

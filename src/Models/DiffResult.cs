@@ -653,6 +653,8 @@ namespace SourceGit.Models
 
         public string OldImageSize => Old != null ? $"{Old.PixelSize.Width} x {Old.PixelSize.Height}" : "0 x 0";
         public string NewImageSize => New != null ? $"{New.PixelSize.Width} x {New.PixelSize.Height}" : "0 x 0";
+
+        public bool NoImageFiltering => SourceGit.ViewModels.Preferences.Instance.NoImageFilteringInDiffView;
     }
 
     public class NoOrEOLChange

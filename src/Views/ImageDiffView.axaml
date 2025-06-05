@@ -35,7 +35,8 @@
           <Border Grid.Row="1" Margin="0,12,0,0" Effect="drop-shadow(0 0 8 #A0000000)">
             <Border Background="{DynamicResource Brush.Popup}" HorizontalAlignment="Center" Padding="8">
               <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border1}">
-                <v:ImageView Image="{Binding Old}"/>
+                <v:ImageView Image="{Binding Old}"
+                             BitmapInterpolationMode="{Binding NoImageFiltering, Converter={x:Static c:BoolConverters.DisableImageFiltering}}"/>
               </Border>
             </Border>
           </Border>
@@ -55,7 +56,8 @@
           <Border Grid.Row="1" Margin="0,12,0,0" Effect="drop-shadow(0 0 8 #A0000000)">
             <Border Background="{DynamicResource Brush.Popup}" HorizontalAlignment="Center" Padding="8">
               <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border1}">
-                <v:ImageView Image="{Binding New}"/>
+                <v:ImageView Image="{Binding New}"
+                             BitmapInterpolationMode="{Binding NoImageFiltering, Converter={x:Static c:BoolConverters.DisableImageFiltering}}"/>
               </Border>
             </Border>
           </Border>
@@ -92,7 +94,7 @@
             <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border1}" Margin="8">
               <v:ImageSwipeControl OldImage="{Binding Old}"
                                    NewImage="{Binding New}"
-                                   RenderOptions.BitmapInterpolationMode="HighQuality"/>
+                                   BitmapInterpolationMode="{Binding NoImageFiltering, Converter={x:Static c:BoolConverters.DisableImageFiltering}}"/>
             </Border>
           </Border>
         </Border>
@@ -128,7 +130,8 @@
             <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border1}" Margin="8">
               <v:ImageBlendControl Alpha="{Binding #ImageBlendSlider.Value}"
                                    OldImage="{Binding Old}"
-                                   NewImage="{Binding New}"/>
+                                   NewImage="{Binding New}"
+                                   BitmapInterpolationMode="{Binding NoImageFiltering, Converter={x:Static c:BoolConverters.DisableImageFiltering}}"/>
             </Border>
           </Border>
         </Border>

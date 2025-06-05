@@ -10,5 +10,8 @@ namespace SourceGit.Converters
 
         public static readonly FuncValueConverter<bool, FontWeight> IsBoldToFontWeight =
             new FuncValueConverter<bool, FontWeight>(x => x ? FontWeight.Bold : FontWeight.Normal);
+
+        public static readonly FuncValueConverter<bool, Avalonia.Media.Imaging.BitmapInterpolationMode> DisableImageFiltering =
+            new FuncValueConverter<bool, Avalonia.Media.Imaging.BitmapInterpolationMode>(x => x ? Avalonia.Media.Imaging.BitmapInterpolationMode.None : Avalonia.Media.Imaging.BitmapInterpolationMode.HighQuality);
     }
 }
