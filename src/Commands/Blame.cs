@@ -17,7 +17,6 @@ namespace SourceGit.Commands
             RaiseError = false;
 
             _result.File = file;
-            _result.Revision = revision;
         }
 
         public Models.BlameData Result()

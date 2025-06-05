@@ -1,26 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Avalonia.Threading;
-
 using CommunityToolkit.Mvvm.ComponentModel;
-using SourceGit.Commands;
 
 namespace SourceGit.ViewModels
 {
     public class Blame : ObservableObject
     {
-        public string Revision
+        public string Title
         {
-            get => _revision;
-            private set => SetProperty(ref _revision, value);
-        }
-
-        public string File
-        {
-            get => _file;
-            private set => SetProperty(ref _file, value);
+            get => _title;
+            private set => SetProperty(ref _title, value);
         }
 
         public bool IsBinary
@@ -47,8 +38,7 @@ namespace SourceGit.ViewModels
 
         private void SetBlameData(string commitSHA, bool fromButtons)
         {
-            //Title = $"{_file} @ {commitSHA}";
-            Revision = commitSHA;
+            Title = $"{_file} @ {commitSHA}";
 
             Task.Run(() =>
             {
@@ -125,10 +115,9 @@ namespace SourceGit.ViewModels
             return msg;
         }
 
-        //private string _title;
-        private string _revision;
         private string _repo;
         private string _file;
+        private string _title;
         private Models.BlameData _data = null;
         private Dictionary<string, string> _commitMessages = new Dictionary<string, string>();
     }
