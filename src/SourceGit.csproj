@@ -65,4 +65,10 @@
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
     <LinkerArg Include="-mmacosx-version-min=11.0" Condition="'$(Configuration)' == 'Release'" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\LocalFilesPage.axaml.cs">
+      <DependentUpon>LocalFilesPage.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -78,12 +78,13 @@ namespace SourceGit.ViewModels
                     SelectedView = value switch
                     {
                         1 => _workingCopy,
-                        2 => _stashesPage,
+                        2 => _localFilesPage,
+                        3 => _stashesPage,
                         _ => _histories,
                     };
+                    }
                 }
             }
-        }
 
         public object SelectedView
         {
@@ -529,6 +530,7 @@ namespace SourceGit.ViewModels
 
             _histories = new Histories(this);
             _workingCopy = new WorkingCopy(this);
+            _localFilesPage = new LocalFilesPage(this);
             _stashesPage = new StashesPage(this);
             _selectedView = _histories;
             _selectedViewIndex = 0;
@@ -563,11 +565,13 @@ namespace SourceGit.ViewModels
             _watcher?.Dispose();
             _histories.Dispose();
             _workingCopy.Dispose();
+            _localFilesPage.Dispose();
             _stashesPage.Dispose();
 
             _watcher = null;
             _histories = null;
             _workingCopy = null;
+            _localFilesPage = null;
             _stashesPage = null;
 
             _localChangesCount = 0;
@@ -879,9 +883,9 @@ namespace SourceGit.ViewModels
                     var isCommitSHA = new Commands.IsCommitSHA(_fullpath, _searchCommitFilter).Result();
                     if (isCommitSHA)
                     {
-                        var commit = new Commands.QuerySingleCommit(_fullpath, _searchCommitFilter).Result();
+                    var commit = new Commands.QuerySingleCommit(_fullpath, _searchCommitFilter).Result();
                         visible.Add(commit);
-                    }
+                }
                 }
                 else
                 {
@@ -2993,6 +2997,7 @@ namespace SourceGit.ViewModels
         private Models.Watcher _watcher = null;
         private Histories _histories = null;
         private WorkingCopy _workingCopy = null;
+        private LocalFilesPage _localFilesPage = null;
         private StashesPage _stashesPage = null;
         private int _selectedViewIndex = 0;
         private object _selectedView = null;
