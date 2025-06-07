@@ -157,6 +157,13 @@
               </ListBoxItem>
 
               <ListBoxItem IsVisible="{Binding !IsBare}">
+                <Grid Classes="view_mode" ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+                  <Path Grid.Column="0" Classes="icon" Data="{StaticResource Icons.File}"/>
+                  <TextBlock Grid.Column="1" Classes="header" Text="{DynamicResource Text.WCFiles}"/>
+                </Grid>
+              </ListBoxItem>
+
+              <ListBoxItem IsVisible="{Binding !IsBare}">
                 <Grid Classes="view_mode" ColumnDefinitions="Auto,*,Auto,Auto">
                   <Path Grid.Column="0" Classes="icon" Data="{StaticResource Icons.Stashes}"/>
                   <TextBlock Grid.Column="1" Classes="header" Text="{DynamicResource Text.Stashes}"/>
@@ -841,6 +848,10 @@
             <v:WorkingCopy/>
           </DataTemplate>
 
+          <DataTemplate DataType="vm:WCFilesPage">
+            <v:WCFilesPage/>
+          </DataTemplate>
+          
           <DataTemplate DataType="vm:StashesPage">
             <v:StashesPage/>
           </DataTemplate>

@@ -81,6 +81,9 @@ namespace SourceGit.ViewModels
                             SelectedView = _workingCopy;
                             break;
                         case 2:
+                            SelectedView = _wcFilesPage;
+                            break;
+                        case 3:
                             SelectedView = _stashesPage;
                             break;
                         default:
@@ -535,6 +538,7 @@ namespace SourceGit.ViewModels
 
             _histories = new Histories(this);
             _workingCopy = new WorkingCopy(this);
+            _wcFilesPage = new WCFilesPage(this);
             _stashesPage = new StashesPage(this);
             _selectedView = _histories;
             _selectedViewIndex = 0;
@@ -569,11 +573,13 @@ namespace SourceGit.ViewModels
             _watcher?.Dispose();
             _histories.Dispose();
             _workingCopy.Dispose();
+            _wcFilesPage.Dispose();
             _stashesPage.Dispose();
 
             _watcher = null;
             _histories = null;
             _workingCopy = null;
+            _wcFilesPage = null;
             _stashesPage = null;
 
             _localChangesCount = 0;
@@ -2909,6 +2915,7 @@ namespace SourceGit.ViewModels
         private Models.Watcher _watcher = null;
         private Histories _histories = null;
         private WorkingCopy _workingCopy = null;
+        private WCFilesPage _wcFilesPage = null;
         private StashesPage _stashesPage = null;
         private int _selectedViewIndex = 0;
         private object _selectedView = null;
